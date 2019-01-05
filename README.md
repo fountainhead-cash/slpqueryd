@@ -8,7 +8,7 @@ bitquery is a **Turing complete query language for building immutable API on Bit
 
 bitquery is a **portable**, **self-contained**, and **programmable** query language that lets you:
 
-1. **Query** bitcoin (via [bitdb](https://bitdb.network)) using a [mongodb query language](https://docs.mongodb.com/manual/tutorial/query-documents/)
+1. **Query** bitcoin (via [bitdb](https://bitdb.fountainhead.cash)) using a [mongodb query language](https://docs.mongodb.com/manual/tutorial/query-documents/)
 2. **Process** the result using [jq](https://en.wikipedia.org/wiki/Jq_(programming_language)), a turing complete functional programming language
 3. All within a single **self-contained declarative query language**.
 
@@ -20,7 +20,7 @@ Top level attributes:
 - q: query (MongoDB query)
 - r: response handler (powered by [jq](https://stedolan.github.io/jq/))
 
-> Learn more here: [https://docs.bitdb.network](https://docs.bitdb.network)
+> Learn more here: [https://docs.fountainhead.cash](https://docs.fountainhead.cash)
 
 With this combination, you can create your own custom API that's:
 
@@ -30,7 +30,7 @@ With this combination, you can create your own custom API that's:
 
 ## 2. Build your own API from Bitcoin!
 
-Here's a simple bitquery (You can learn more about the syntax [here](https://docs.bitdb.network/query))
+Here's a simple bitquery (You can learn more about the syntax [here](https://docs.fountainhead.cash/query))
 
 ```
 {
@@ -86,7 +86,7 @@ To summarize, with bitquery:
 
 bitqueryd is a query engine that:
 
-1. Connects to a [bitdb](https://bitdb.network) node and
+1. Connects to a [bitdb](https://bitdb.fountainhead.cash) node and
 2. Let you interact with bitdb using the **bitquery** language.
 
 
@@ -94,12 +94,12 @@ bitqueryd is a query engine that:
 
 bitqueryd is a query engine that directly interfaces with a BitDB node. You must have direct access to a BitDB node through either a local or remote MongoDB URL. (An HTTP based module to come soon)
 
-> This library is for connecting directly to a BitDB MongoDB instance through `mongodb://` url and is not for HTTP access. If you're looking for a public HTTP endpoint, this library is not what you're looking for. You can instead use the HTTP-based API endpoint at [bitdb.network](https://bitdb.network), which takes only a couple of minutes to get your app up and running.
+> This library is for connecting directly to a BitDB MongoDB instance through `mongodb://` url and is not for HTTP access. If you're looking for a public HTTP endpoint, this library is not what you're looking for. You can instead use the HTTP-based API endpoint at [bitdb.fountainhead.cash](https://bitdb.fountainhead.cash), which takes only a couple of minutes to get your app up and running.
 
 ## 3. install
 
 ```
-npm install --save bitqueryd
+npm install --save fountainhead-bitqueryd
 ```
 
 ## 4. usage
@@ -110,7 +110,7 @@ First initialize, and use the returned db object to make the query.
 
 
 ```
-var bitqueryd = require('bitqueryd')
+var bitqueryd = require('fountainhead-bitqueryd')
 var bql = {
   "v": 3,
   "q": {
@@ -131,7 +131,7 @@ bitqueryd.init().then(function(db) {
 ### B. Using Async-Await
 
 ```
-var bitqueryd = require('bitqueryd')
+var bitqueryd = require('fountainhead-bitqueryd')
 var bql = {
   "v": 3,
   "q": {
