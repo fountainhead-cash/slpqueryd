@@ -1,5 +1,5 @@
 require('dotenv').config()
-const jq = require('bigjq')
+const jq = require('fountainhead-bigjq')
 const bcode = require('bcode')
 const MongoClient = require('mongodb').MongoClient
 const traverse = require('traverse')
