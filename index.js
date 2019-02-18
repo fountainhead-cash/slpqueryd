@@ -3,8 +3,9 @@ const jq = require('fountainhead-bigjq')
 const bcode = require('bcode')
 const MongoClient = require('mongodb').MongoClient
 const traverse = require('traverse')
-const dbTypes = ["u", "c"]
+const dbTypes = ["t", "u", "c"]
 const dbMapping = {
+  t: "tokens",
   u: "unconfirmed",
   c: "confirmed"
 }

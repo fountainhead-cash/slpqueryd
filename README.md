@@ -1,14 +1,16 @@
-# bitqueryd
+# slpqueryd
 
-## 1. What is bitquery?
+## 1. What is slpquery?
 
-bitquery is a **Turing complete query language for building immutable API on Bitcoin**.
+slpquery is a **Turing complete query language for building immutable API on Bitcoin**.
+
+It is a fork of bitquery to enable querying [SLP](https://simpleledger.cash) tokens. 
 
 ![f](./img/f.png)
 
-bitquery is a **portable**, **self-contained**, and **programmable** query language that lets you:
+slpquery is a **portable**, **self-contained**, and **programmable** query language that lets you:
 
-1. **Query** bitcoin (via [bitdb](https://bitdb.fountainhead.cash)) using a [mongodb query language](https://docs.mongodb.com/manual/tutorial/query-documents/)
+1. **Query** bitcoin (via [SLPDB](https://slpdb.fountainhead.cash)) using a [mongodb query language](https://docs.mongodb.com/manual/tutorial/query-documents/)
 2. **Process** the result using [jq](https://en.wikipedia.org/wiki/Jq_(programming_language)), a turing complete functional programming language
 3. All within a single **self-contained declarative query language**.
 
@@ -30,7 +32,7 @@ With this combination, you can create your own custom API that's:
 
 ## 2. Build your own API from Bitcoin!
 
-Here's a simple bitquery (You can learn more about the syntax [here](https://docs.fountainhead.cash/query))
+Here's a simple slpquery (You can learn more about the syntax [here](https://docs.fountainhead.cash/query))
 
 ```
 {
@@ -42,7 +44,7 @@ Here's a simple bitquery (You can learn more about the syntax [here](https://doc
 }
 ```
 
-When you send the query to a bitdb node, it will respond with the following result:
+When you send the query to a slpdb node, it will respond with the following result:
 
 ![raw](./img/raw.png)
 
@@ -72,7 +74,7 @@ Thanks to this additional step, this will respond with:
 
 ![api](./img/api.png)
 
-To summarize, with bitquery:
+To summarize, with slpquery:
 
 1. **Flexible Query:** You can write a portable JSON query to read from the blockchain.
 2. **Response Processing:** You can also add additional step to represent the processing logic, which will return your own custom immutable stream of data from bitcoin, or also known as **API**.
@@ -80,26 +82,26 @@ To summarize, with bitquery:
 
 ---
 
-# bitqueryd
+# slpqueryd
 
-## 1. What is bitqueryd?
+## 1. What is slpqueryd?
 
-bitqueryd is a query engine that:
+slpqueryd is a query engine that:
 
-1. Connects to a [bitdb](https://bitdb.fountainhead.cash) node and
-2. Let you interact with bitdb using the **bitquery** language.
+1. Connects to a [SLPDB](https://slpdb.fountainhead.cash) node and
+2. Let you interact with SLPDB using the **slpquery** language.
 
 
 ## 2. prerequisites
 
-bitqueryd is a query engine that directly interfaces with a BitDB node. You must have direct access to a BitDB node through either a local or remote MongoDB URL. (An HTTP based module to come soon)
+slpqueryd is a query engine that directly interfaces with a BitDB node. You must have direct access to a BitDB node through either a local or remote MongoDB URL. (An HTTP based module to come soon)
 
-> This library is for connecting directly to a BitDB MongoDB instance through `mongodb://` url and is not for HTTP access. If you're looking for a public HTTP endpoint, this library is not what you're looking for. You can instead use the HTTP-based API endpoint at [bitdb.fountainhead.cash](https://bitdb.fountainhead.cash), which takes only a couple of minutes to get your app up and running.
+> This library is for connecting directly to a BitDB MongoDB instance through `mongodb://` url and is not for HTTP access. If you're looking for a public HTTP endpoint, this library is not what you're looking for. You can instead use the HTTP-based API endpoint at [slpdb.fountainhead.cash](https://slpdb.fountainhead.cash), which takes only a couple of minutes to get your app up and running.
 
 ## 3. install
 
 ```
-npm install --save fountainhead-bitqueryd
+npm install --save fountainhead-slpqueryd
 ```
 
 ## 4. usage
@@ -110,7 +112,7 @@ First initialize, and use the returned db object to make the query.
 
 
 ```
-var bitqueryd = require('fountainhead-bitqueryd')
+var slpqueryd = require('fountainhead-slpqueryd')
 var bql = {
   "v": 3,
   "q": {
@@ -121,7 +123,7 @@ var bql = {
     "f": "[.[] | .out[0] | {h1: .h1, s2: .s2} ]"
   }
 }
-bitqueryd.init().then(function(db) {
+slpqueryd.init().then(function(db) {
   db.read(bql).then(function(response) {
     console.log("Response = ", response)
   })
@@ -131,7 +133,7 @@ bitqueryd.init().then(function(db) {
 ### B. Using Async-Await
 
 ```
-var bitqueryd = require('fountainhead-bitqueryd')
+var slpqueryd = require('fountainhead-slpqueryd')
 var bql = {
   "v": 3,
   "q": {
@@ -143,13 +145,13 @@ var bql = {
   }
 };
 (async function () {
-  let db = await bitqueryd.init();
+  let db = await slpqueryd.init();
   let response = await db.read(bql);
   console.log("Response = ", response)
 })();
 ```
 
-> Note: By default bitquery connects to `mongodb://localhost:27017` so you don't need to configure anything if you set up BitDB without changing anything.
+> Note: By default slpquery connects to `mongodb://localhost:27017` so you don't need to configure anything if you set up BitDB without changing anything.
 
 
 ## 5. configuration
@@ -164,7 +166,7 @@ You can set the following two options:
 Select the BitDB URL to connect to. 
 
 ```
-bitqueryd.init({
+slpqueryd.init({
   url: "mongodb://localhost:27017"
 }).then(function(db) {
   ...
@@ -176,7 +178,7 @@ bitqueryd.init({
 Set request timeout in milliseconds. All BitDB requests will time out after this duration.
 
 ```
-bitqueryd.init({
+slpqueryd.init({
   timeout: 20000
 }).then(function(db) {
   ...
