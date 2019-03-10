@@ -2,7 +2,6 @@ require('dotenv').config()
 const jq = require('fountainhead-bigjq')
 const bcode = require('bcode')
 const MongoClient = require('mongodb').MongoClient
-const traverse = require('traverse')
 const dbTypes = ["t", "u", "c"]
 const dbMapping = {
   t: "tokens",
@@ -137,7 +136,24 @@ var lookup = function(r, key, resfilter) {
         } else {
           let res = docs;
           res = bcode.decode(docs, r.encoding)
-          
+
+          const walk_object = function(o, fn) {
+            for (const i in o) {
+              fn.apply(this, [i, o[i]])
+
+              if (o[i] !== null && typeof(o[i]) === "object") {
+                walk_object(o[i], fn);
+              }
+            }
+          }
+
+          // convert $numberDecimal to string
+          walk_object(res, function(k, v) {
+            if (v && typeof v === 'object' && v.hasOwnProperty('$numberDecimal')) {
+              v = v.toString()
+            }
+          })
+
           // response filter
           if (resfilter && resfilter.f && res.length > 0) {
             try {
