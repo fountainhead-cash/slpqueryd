@@ -137,22 +137,18 @@ var lookup = function(r, key, resfilter) {
           let res = docs;
           res = bcode.decode(docs, r.encoding)
 
-          const walk_object = function(o, fn) {
+          // TODO change this to be more efficient when schema finalized
+          function convert_numberdecimal_to_string(o) {
             for (const i in o) {
-              fn.apply(this, [i, o[i]])
-
               if (o[i] !== null && typeof(o[i]) === "object") {
-                walk_object(o[i], fn);
+                if (o[i].hasOwnProperty('_bsontype') && o[i]['_bsontype'] == 'Decimal128') {
+                  o[i] = o[i].toString()
+                }
+                convert_numberdecimal_to_string(o[i])
               }
             }
           }
-
-          // convert $numberDecimal to string
-          walk_object(res, function(k, v) {
-            if (v && typeof v === 'object' && v.hasOwnProperty('$numberDecimal')) {
-              v = v.toString()
-            }
-          })
+          convert_numberdecimal_to_string(res)
 
           // response filter
           if (resfilter && resfilter.f && res.length > 0) {

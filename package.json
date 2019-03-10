@@ -1,6 +1,6 @@
 {
   "name": "fountainhead-slpqueryd",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "A Turing Complete Query Engine for SLPDB",
   "main": "index.js",
   "author": "",
@@ -11,8 +11,9 @@
   "dependencies": {
     "bcode": "0.0.6",
     "dotenv": "^6.0.0",
-    "mongodb": "^3.1.4",
     "fountainhead-bigjq": "0.0.13",
+    "json-pointer": "^0.6.0",
+    "mongodb": "^3.1.4",
     "traverse": "^0.6.6"
   },
   "devDependencies": {
