@@ -2,7 +2,6 @@ require('dotenv').config()
 const jq = require('fountainhead-bigjq')
 const bcode = require('bcode')
 const MongoClient = require('mongodb').MongoClient
-const traverse = require('traverse')
 const dbTypes = ["t", "u", "c"]
 const dbMapping = {
   t: "tokens",
@@ -137,7 +136,20 @@ var lookup = function(r, key, resfilter) {
         } else {
           let res = docs;
           res = bcode.decode(docs, r.encoding)
-          
+
+          // TODO change this to be more efficient when schema finalized
+          function convert_numberdecimal_to_string(o) {
+            for (const i in o) {
+              if (o[i] !== null && typeof(o[i]) === "object") {
+                if (o[i].hasOwnProperty('_bsontype') && o[i]['_bsontype'] == 'Decimal128') {
+                  o[i] = o[i].toString()
+                }
+                convert_numberdecimal_to_string(o[i])
+              }
+            }
+          }
+          convert_numberdecimal_to_string(res)
+
           // response filter
           if (resfilter && resfilter.f && res.length > 0) {
             try {
