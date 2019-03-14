@@ -2,11 +2,14 @@ require('dotenv').config()
 const jq = require('fountainhead-bigjq')
 const bcode = require('bcode')
 const MongoClient = require('mongodb').MongoClient
-const dbTypes = ["t", "u", "c"]
+const dbTypes = ["t", "u", "c", "g", "a", "x"]
 const dbMapping = {
   t: "tokens",
   u: "unconfirmed",
-  c: "confirmed"
+  c: "confirmed",
+  g: "graphs",
+  a: "addresses",
+  x: "utxos"
 }
 const ops = ["db", "find", "aggregate", "sort", "project", "limit", "skip", "distinct"]
 var db, client
