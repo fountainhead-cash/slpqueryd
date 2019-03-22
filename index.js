@@ -2,6 +2,7 @@ require('dotenv').config()
 const jq = require('fountainhead-bigjq')
 const bcode = require('bcode')
 const MongoClient = require('mongodb').MongoClient
+const BigNumber = require('bignumber.js')
 const dbTypes = ["t", "u", "c", "g", "a", "x"]
 const dbMapping = {
   t: "tokens",
@@ -145,7 +146,7 @@ var lookup = function(r, key, resfilter) {
             for (const i in o) {
               if (o[i] !== null && typeof(o[i]) === "object") {
                 if (o[i].hasOwnProperty('_bsontype') && o[i]['_bsontype'] == 'Decimal128') {
-                  o[i] = o[i].toString()
+                  o[i] = new BigNumber(o[i].toString()).toFixed()
                 }
                 convert_numberdecimal_to_string(o[i])
               }
